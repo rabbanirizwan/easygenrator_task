@@ -46,7 +46,7 @@ const SignUp = () => {
       localStorage.setItem("m-user", token);
     },
     onError: (error: Error) => {
-      console.log(error);
+     
       openNotification(error.message);
       setError(error.message);
     },
@@ -61,14 +61,8 @@ const SignUp = () => {
       <div className="wrapper">
         <div className="illustration-wrapper"></div>
         <img
-          src="https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=600"
-          alt="Login"
-          style={{
-            height: "100vh",
-            width: "70vw",
-            position: "relative",
-            zIndex: 2,
-          }}
+          src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="singup"
         />
       </div>
 
@@ -79,7 +73,7 @@ const SignUp = () => {
         onFinishFailed={onFinishFailed}
       >
         <p className="form-title">Welcome back</p>
-        <p>Login to the Dashboard</p>
+        <p>Signup to the Dashboard</p>
 
         <Form.Item
           name="name"

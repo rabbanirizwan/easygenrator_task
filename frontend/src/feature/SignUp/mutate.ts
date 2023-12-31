@@ -2,9 +2,7 @@ import { useMutation, UseMutationOptions, MutationFunction } from "react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 interface User {
-  id: number;
-  name: string;
-  token: string
+  token: string;
 }
 
 export interface Params {
@@ -14,7 +12,7 @@ export interface Params {
 }
 
 const getUser: MutationFunction<User, Params> = async (params) => {
-  console.log(params, "params singup");
+ 
   try {
     const response: AxiosResponse<User> = await axios.post(
       "http://localhost:8000/auth/signup",
@@ -28,9 +26,10 @@ const getUser: MutationFunction<User, Params> = async (params) => {
 
     return response.data;
   } catch (error) {
-    console.error(error, "error");
-
-    if (error instanceof AxiosError && typeof error?.response?.data.message === "string") {
+    if (
+      error instanceof AxiosError &&
+      typeof error?.response?.data.message === "string"
+    ) {
       throw new Error(error?.response?.data.message);
     } else {
       throw new Error("An error occurred during signup. Please try again.");
@@ -38,11 +37,9 @@ const getUser: MutationFunction<User, Params> = async (params) => {
   }
 };
 
-
 export const useRegister = (
   config?: UseMutationOptions<User, Error, Params>
 ) => {
-  console.log(config, "signup config");
   const {
     mutate: mutateRegister,
     isLoading,
