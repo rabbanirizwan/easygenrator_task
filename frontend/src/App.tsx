@@ -10,8 +10,28 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
+import SignUp from "./feature/SignUp/SingUpContainer";
+import Welcome from "./feature/Welcome/welcome";
+import { isAuthenticated } from "./utils/script";
 
 const queryClient = new QueryClient();
+
+type ProtectedRouteProps = {
+  element: React.ReactElement;
+  path: string;
+};
+
+// ProtectedRoute HOC
+const ProtectedRoute = ({
+  element,
+  path,
+}: ProtectedRouteProps) => {
+  return isAuthenticated() ? (
+    element
+  ) : (
+    <Navigate to="/" replace state={{ from: path }} />
+  );
+};
 
 const routesConfig = createBrowserRouter([
   {
@@ -19,8 +39,14 @@ const routesConfig = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/register",
-    // element: <Register />,
+    path: "/signup",
+    element: <SignUp />,
+  },
+  {
+    path: "/welcome",
+    element: (
+      <ProtectedRoute element={<Welcome />}  path="/welcome" />
+    ),
   },
 ]);
 
@@ -28,7 +54,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-        <RouterProvider router={routesConfig} />
+      <RouterProvider router={routesConfig}  />
       </div>
     </QueryClientProvider>
   );

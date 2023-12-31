@@ -9,10 +9,6 @@ export class LoginDto{
 
 
     @IsNotEmpty()
-    @IsString()
-    @MinLength(8, { message: 'Password must be at least 8 characters long' })
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/, {
-        message: 'Password must contain at least 1 letter, 1 number, and 1 special character',
-    })
+    @IsString({ message: 'Password cannot be empty' })
     readonly password: string;
 }

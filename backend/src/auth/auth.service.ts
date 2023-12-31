@@ -1,5 +1,9 @@
-
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+  Logger,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schemas';
@@ -11,6 +15,7 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger('AuthController');
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
@@ -20,11 +25,10 @@ export class AuthService {
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { name, email, password } = signUpDto;
 
-   
-
     const existingUser = await this.userModel.findOne({ email });
 
     if (existingUser) {
+      this.logger.warn(`Email "${email}" is already in use`);
       throw new ConflictException('Email already in use');
     }
 
@@ -46,12 +50,14 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
+      this.logger.warn(`Invalid login attempt for email "${email}"`);
       throw new UnauthorizedException('Invalid email or password');
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
+      this.logger.warn(email, 'Invalid email or password');
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -60,4 +66,3 @@ export class AuthService {
     return { token };
   }
 }
-

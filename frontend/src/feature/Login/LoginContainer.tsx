@@ -1,30 +1,36 @@
-import { Form, Input, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import "./styles.css";
+import { Form, Input, Button, notification } from "antd";
+import {
+  UserOutlined,
+  LockOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
+import "../styles.css";
 import { Uselogin } from "./mutate";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-// import PRButton from "../../common/Button/Button";
+import { sanitizeInput, validateEmail } from "../../utils/script";
 
 const Login = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [error, setError] = useState<string>("");
 
   const onFinish = (values: any) => {
-    mutateLogin(values);
+    const sanitizedValues = {
+      email: sanitizeInput(values.email),
+      password: sanitizeInput(values.password),
+    };
+    mutateLogin(sanitizedValues);
   };
 
   const { mutateLogin, isLoading } = Uselogin({
     onSuccess: () => {
-      //   localStorage.setItem("detect", token);
-      //   localStorage.setItem("user", JSON.stringify({ user }));
-      //   navigate("/dashboard");
+      navigate("/welcome");
     },
     onError: (error: Error) => {
       console.log(error);
       setError(error.message);
-      // show error message or do other stuff
+      openNotification(error.message);
     },
   });
 
@@ -32,16 +38,35 @@ const Login = () => {
     console.log("Failed:", errorInfo);
   };
 
+  const handleClickNavigate = () => {
+    navigate("/signup");
+  };
+
+  const openNotification = (message: string) => {
+    notification.open({
+      message: "Error",
+      description: message,
+      icon: <CloseCircleOutlined style={{ color: "#ff4d4f" }} />,
+    });
+  };
+
   return (
     <div className="login-page">
       <div className="login-box">
-        {/* <div className="illustration-wrapper"> */}
+        <div className="wrapper">
+          <div className="illustration-wrapper"></div>
           <img
             src="https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=600"
             alt="Login"
-            style={{height:'100lvh',width:'80lvw'}}
+            style={{
+              height: "100vh",
+              width: "70vw",
+              position: "relative",
+              zIndex: 2,
+            }}
           />
-        {/* </div> */}
+        </div>
+
         <Form
           name="login-form"
           initialValues={{ remember: true }}
@@ -52,7 +77,10 @@ const Login = () => {
           <p>Login to the Dashboard</p>
           <Form.Item
             name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
+            rules={[
+              { required: true, message: "Please input your email!" },
+              { validator: validateEmail },
+            ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
@@ -64,12 +92,12 @@ const Login = () => {
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input
+            <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
               placeholder="Password"
             />
           </Form.Item>
+
           <p>{error}</p>
 
           <Form.Item>
@@ -78,9 +106,13 @@ const Login = () => {
               size="large"
               htmlType="submit"
               loading={isLoading}
+              type="primary"
             >
               Login
             </Button>
+            <p className="link" onClick={handleClickNavigate}>
+              or sing up
+            </p>
           </Form.Item>
         </Form>
       </div>

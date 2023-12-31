@@ -1,16 +1,4 @@
-/* 
-   ::-webkit-scrollbar {
-    width: 8px;
-  }
-   
-  ::-webkit-scrollbar-track {
-    background-color: #aaa;
-  }
-   
-  ::-webkit-scrollbar-thumb {
-    background-color: #335ddc;
-    border-radius: 8px;
-  } */
+
   
   body {
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
@@ -18,29 +6,27 @@
   }
   
   .login-page {
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #f3d2c4;
+    background: #f3d2c4; */
   }
   .login-box {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+   
     flex-direction: row;
-    /* max-width: 1000px; */
     background-color: white;
     box-shadow: 0 0 40px rgba(0,0,0,0.16);
-    /* overflow: hidden;
-    margin: 0 auto;
-    border-radius: 12px; */
+   
   }
   #login-form {
-    flex: 1 0 100%;
-    /* max-width: 480px;
-    width: 100%;
-    padding: 60px; */
+    width: 30lvw;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   #login-form p {
     margin-bottom: 30px;
@@ -73,16 +59,29 @@
   .login-form-button {
     width: 100%;
   }
-  .illustration-wrapper {
-    display: flex;
-    align-items: flex-end;
-    /* max-width: 800px; */
-    min-height: 20%;
-    background-color: #fffdf2;
+  .wrapper{
+    position: relative;
+  
   }
-  .illustration-wrapper img {
-    display: block;
-    width: 100%;
+  .illustration-wrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 19;
+    background-color: rgba(54, 43, 4, 0.4);
+   
+  }
+  .img {
+    background-image: url('https://images.unsplash.com/photo-1682687982093-4773cb0dbc2e?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=600');
+    height: 100lvh;
+    width: 70lvw;
+    background-position: center;
+    background-size: cover;
+  }
+  .link{
+    cursor: pointer;
   }
   @media screen and (max-width: 1023px) {
     .login-box {

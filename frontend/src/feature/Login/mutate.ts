@@ -1,15 +1,15 @@
 import { useMutation, UseMutationOptions } from "react-query";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 interface LoginCredentials {
  email:string;
  password:string
 }
 
-const getUser = async (params: any): Promise<LoginCredentials> => {
+const getUser = async (params: LoginCredentials): Promise<LoginCredentials> => {
   try {
     const response: AxiosResponse<LoginCredentials> = await axios.post(
-      "https://ai-ml-auth-drhbjrcbiq-uc.a.run.app/profile/auth/login",
+      "http://localhost:8000/auth/login",
       params,
       {
         headers: {
@@ -17,17 +17,25 @@ const getUser = async (params: any): Promise<LoginCredentials> => {
         },
       }
     );
+    console.log("ddd",response.data)
 
     return response.data;
-  } catch (error) {
-    const errorMessage = typeof error === 'string' ? error : 'An error occurred';
-    throw new Error(errorMessage);
+  } catch (error:any) {
+    console.log(error,"error logn")
+    
+    if (error instanceof AxiosError && typeof error?.response?.data.message === "string") {
+      throw new Error(error?.response?.data.message);
+    } else {
+      throw new Error("An error occurred during signup. Please try again.");
+    }
+   
   }
 };
 
 export const Uselogin = (
   config?: UseMutationOptions<LoginCredentials, Error, any, any>
 ) => {
+  console.log("config",config)
   const {
     mutate: mutateLogin,
     isLoading,
