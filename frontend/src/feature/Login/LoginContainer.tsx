@@ -92,8 +92,6 @@ const Login = () => {
             />
           </Form.Item>
 
-          <p>{error}</p>
-
           <Form.Item>
             <Button
               className={`button login-form-button`}

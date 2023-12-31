@@ -46,7 +46,6 @@ const SignUp = () => {
       localStorage.setItem("m-user", token);
     },
     onError: (error: Error) => {
-     
       openNotification(error.message);
       setError(error.message);
     },
@@ -111,7 +110,6 @@ const SignUp = () => {
             placeholder="Password"
           />
         </Form.Item>
-        <p>{error}</p>
 
         <Form.Item>
           <Button
