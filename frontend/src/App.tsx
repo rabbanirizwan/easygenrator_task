@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import "antd/dist/reset.css";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -21,7 +20,6 @@ type ProtectedRouteProps = {
   path: string;
 };
 
-// ProtectedRoute HOC
 const ProtectedRoute = ({
   element,
   path,
